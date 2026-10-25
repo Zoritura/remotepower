@@ -7,6 +7,7 @@ const path = require('path');
 const net = require('net');
 const crypto = require('crypto');
 const { execFile } = require('child_process');
+const { startMdns } = require('./mdns');
 
 const ROOT = __dirname;
 
@@ -131,7 +132,8 @@ const expired = (s) => Date.now() - s.last > IDLE_MS || Date.now() - s.created >
 function parseCookies(h) {
   const out = {};
   for (const part of (h || '').split(';')) {
-    const i = part.indexOf('='); if (i > 0) out[part.slice(0, i).trim()] = part.slice(i + 1).trim();
+    const i = part.indexOf('=');
+    if (i > 0) out[part.slice(0, i).trim()] = part.slice(i + 1).trim();
   }
   return out;
 }
@@ -322,6 +324,7 @@ if (cfg.https.enabled) {
 
 server.headersTimeout = 10000; server.requestTimeout = 15000; server.keepAliveTimeout = 5000;
 server.maxHeadersCount = 50; server.maxRequestsPerSocket = 200;
+startMdns();
 server.listen(cfg.port, cfg.host, () => {
   audit('service_started', 'local', { port: cfg.port, https: !!cfg.https.enabled });
 });

@@ -1,6 +1,6 @@
+#Requires -RunAsAdministrator
 # Run from an elevated PowerShell window.
 param([string]$NodePath = '')
-#Requires -RunAsAdministrator
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 if (-not $NodePath) { $NodePath = (Get-Command node.exe -ErrorAction Stop).Source }
@@ -14,10 +14,10 @@ if (-not (Test-Path "$root\config.json")) {
     & $node "$root\setup-password.js"
     if ($LASTEXITCODE -ne 0) { throw 'Password setup failed.' }
 }
-# Preserve the password and other settings; add only the discovery hostname.
-& $node -e 'const fs=require("fs");const p=process.argv[1];const c=JSON.parse(fs.readFileSync(p,"utf8").replace(/^\uFEFF/,""));c.allowedHosts=[...new Set([...(c.allowedHosts||[]),"remotepower.local"])];fs.writeFileSync(p,JSON.stringify(c,null,2)+"\n");' "$root\config.json"
-if ($LASTEXITCODE -ne 0) { throw 'Configuration update failed.' }
-$cfg = Get-Content -Raw "$root\config.json" | ConvertFrom-Json
+# Pass a script file rather than inline JavaScript: compatible with Windows PowerShell 5.1.
+& $node "$root\update-config.js"
+if ($LASTEXITCODE -ne 0) { throw 'Configuration update failed. The existing task was not changed.' }
+$cfg = Get-Content -Raw -Encoding UTF8 "$root\config.json" | ConvertFrom-Json
 $port = 3000
 if ($cfg.port) { $port = [int]$cfg.port }
 New-Item -ItemType Directory -Force "$root\logs" | Out-Null

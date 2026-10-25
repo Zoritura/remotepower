@@ -1,56 +1,29 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark light">
-  <title>PC Control</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>RemotePower — PC control</title>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<main>
-  <header>
-    <h1>PC Control</h1>
-    <div class="pill" id="pill"><span class="dot" id="dot"></span><span id="pillText">Connecting…</span></div>
-  </header>
-
-  <section id="v-login" hidden>
-    <form id="loginForm">
-      <label for="pw">Password</label>
-      <input id="pw" type="password" autocomplete="current-password" maxlength="256" required>
-      <button class="btn primary" type="submit">Log in</button>
-    </form>
-  </section>
-
-  <section id="v-main" hidden>
-    <button class="btn danger" id="btnShutdown">Shut down</button>
-    <button class="btn" id="btnSleep">Sleep</button>
-    <button class="btn" id="btnCancelSched">Cancel scheduled shutdown</button>
-    <p class="muted" id="lastAction"></p>
-    <button class="btn ghost" id="btnLogout">Log out</button>
-  </section>
-
-  <section id="v-confirm" hidden>
-    <h2 id="confirmTitle"></h2>
-    <div class="slide">
-      <span class="slide-label">Slide to confirm &#8594;</span>
-      <input type="range" id="slider" min="0" max="100" value="0" aria-label="Slide to confirm">
-    </div>
-    <button class="btn ghost" id="btnBack">Back</button>
-  </section>
-
-  <section id="v-count" hidden>
-    <p id="countText" class="center"></p>
-    <div class="big" id="countNum">30</div>
-    <button class="btn danger huge" id="btnCancelBig">Cancel</button>
-  </section>
-
-  <section id="v-done" hidden>
-    <h2 id="doneText"></h2>
-    <button class="btn" id="btnDone">OK</button>
-  </section>
-
-  <p id="msg" role="status" class="center"></p>
+<main class="shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="RemotePower home"><span class="brand-icon" aria-hidden="true">⏻</span><span>RemotePower<small>PERSONAL CONTROL CENTER</small></span></a>
+<div class="pill" id="pill" role="status"><span class="dot" id="dot"></span><span id="pillText">Connecting…</span></div>
+</header>
+<div class="workspace">
+<aside class="intro"><p class="eyebrow">YOUR SPACE. YOUR SWITCH.</p><h1>Power down.<br><span>Stay in control.</span></h1><p class="intro-copy">A quieter way to manage your PC. Simple controls, deliberate actions, no extra clutter.</p><div class="device"><span class="monitor" aria-hidden="true">▣</span><div><strong>Your Windows PC</strong><span>Remote power controls</span></div></div><p class="network-note">Designed for your trusted home network.</p></aside>
+<div class="panel">
+<section id="v-login" hidden aria-labelledby="loginTitle"><p class="eyebrow">WELCOME BACK</p><h2 id="loginTitle">Unlock your controls</h2><p class="muted">Enter your RemotePower password to continue.</p><form id="loginForm"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" maxlength="256" placeholder="Your password" required><button class="btn primary" type="submit">Unlock dashboard <span aria-hidden="true">→</span></button></form><p class="footnote">Use only on a trusted network. Password protection does not encrypt an HTTP connection.</p></section>
+<section id="v-main" hidden aria-labelledby="dashboardTitle"><div class="section-heading"><div><p class="eyebrow">DASHBOARD</p><h2 id="dashboardTitle">Make yourself comfortable.</h2></div></div><p class="muted">Choose what your PC should do next.</p><div class="action-grid"><button class="action-card sleep" id="btnSleep" type="button"><span class="action-icon" aria-hidden="true">☾</span><strong>Sleep</strong><span>Take a break. Resume later.</span><span class="card-link">Review action →</span></button><button class="action-card shutdown" id="btnShutdown" type="button"><span class="action-icon" aria-hidden="true">⏻</span><strong>Shut down</strong><span>Finish up and power off.</span><span class="card-link">Review action →</span></button></div><div class="safety-note"><span aria-hidden="true">◷</span><p>Nothing happens immediately.<br><span>Confirm first, then cancel during the 30-second countdown.</span></p></div><div class="activity"><span class="eyebrow">LATEST ACTIVITY</span><p id="lastAction" class="muted">Loading activity…</p></div><div class="toolbar"><button class="btn ghost" id="btnCancelSched" type="button">Cancel scheduled shutdown</button><button class="btn ghost" id="btnLogout" type="button">Log out ↗</button></div></section>
+<section id="v-confirm" hidden aria-labelledby="confirmTitle"><div class="state-icon" aria-hidden="true">⏻</div><p class="eyebrow">ONE MORE CHECK</p><h2 id="confirmTitle">Confirm your action</h2><p class="muted">Save your work before continuing. A 30-second countdown starts after confirmation.</p><label class="range-label" for="slider">Slide all the way right to confirm →</label><div class="slide"><input type="range" id="slider" min="0" max="100" value="0" aria-describedby="sliderHelp"></div><p id="sliderHelp" class="footnote">Keyboard: focus the slider and use the arrow keys to reach 100.</p><button class="btn secondary" id="btnBack" type="button">Go back</button></section>
+<section id="v-count" hidden aria-labelledby="countText"><p class="eyebrow">ACTION SCHEDULED</p><h2 id="countText">Counting down</h2><div class="countdown"><span class="big" id="countNum">30</span><span>SECONDS REMAINING</span></div><p class="muted">Changed your mind? Cancel before the timer ends.</p><button class="btn danger huge" id="btnCancelBig" type="button">Cancel action</button></section>
+<section id="v-done" hidden aria-labelledby="doneText"><div class="state-icon complete" aria-hidden="true">✓</div><p class="eyebrow">REQUEST UPDATE</p><h2 id="doneText">Action updated</h2><p class="muted">You can return to your controls.</p><button class="btn primary" id="btnDone" type="button">Back to dashboard →</button></section>
+<p id="msg" role="status" aria-live="polite"></p>
+</div></div>
+<footer><span>RemotePower / Local PC control</span><span>Deliberate by design.</span></footer>
 </main>
 <script src="/app.js"></script>
 </body>

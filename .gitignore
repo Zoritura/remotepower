@@ -4,3 +4,4 @@ certs/
 node_modules/
 audit.log
 *.log
+config.json.bak
